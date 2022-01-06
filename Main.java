@@ -15,7 +15,7 @@ class Main {
 
         Scanner s;
         try {
-            s = new Scanner(new File("Glider.txt"));
+            s = new Scanner(new File("life100.txt"));
         } catch (FileNotFoundException e) {return;} // Won't happen, but we need this for insurance reasons.
 
         // Remove first number.

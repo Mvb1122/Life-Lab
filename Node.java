@@ -102,42 +102,21 @@ public class Node {
         // where the cells in the corners, which may have neighbors, end up thinking that they have
         // NO neighbors (and dying.)
         int reps = 0;
-        for (int xpos = -1; xpos <= 1; xpos++) for (int ypos = -1; ypos <= 1; ypos++) {
-          if (!(xpos == 0 & ypos == 0)) {
-            try {
-                neighbours[reps] = world[x + xpos][x + ypos];
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                // Fill up any nodes outside the screen with dead spots.
-                neighbours[reps] = new Node();
+        for (int xpos = -1; xpos <= 1; xpos++) {
+          for (int ypos = -1; ypos <= 1; ypos++) {
+            if (!(xpos == 0 && ypos == 0)) {
+              try {
+                  neighbours[reps] = world[x + xpos][x + ypos];
+              } catch (ArrayIndexOutOfBoundsException ignored) {
+                  // Fill up any nodes outside the screen with dead spots.
+                  neighbours[reps] = new Node();
+              }
+              reps++;
             }
-            reps++;
           }
         }
-
-        /*
-        for (int i = 0; i < 3; i++) {
-          try {
-            neighbours[i] = world[x-1+i][y-1];
-          } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-        }
-
-        for (int i = 0; i < 2; i++) {
-          try {
-            if (i == 0) {
-              neighbours[i+3] = world[x+i][y];
-            }
-            else if (i == 1) {
-              neighbours[i+3] = world[x+i][y];
-            } 
-          } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-        }
-        
-        for (int i = 0; i < 3; i++) {
-          try {
-            neighbours[i+5] = world[x-1+i][y+1];
-          } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-        }
-      */
+      
+      
 
         return neighbours;
     }
