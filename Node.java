@@ -1,16 +1,17 @@
 import java.awt.*;
 
 /**
-*  @author mb1122
-*  @author RaphaelLandau 
-*/
+ *  @author mb1122
+ *  @author RaphaelLandau
+ */
 public class Node {
     /**
      *  True -- Alive, False -- Dead
      */
     boolean state, nextState;
     static Node[][] world;
-    int x, y;
+    final int x;
+    final int y;
 
     public Node(int x, int y) {
         this.x = x; this.y = y;
@@ -30,18 +31,22 @@ public class Node {
         else return Color.BLACK;
     }
 
-    /*
+    /**
      *  This method only queues the state change up for the next tick--
      *  it's not applied until then.
-     **/
+     */
     private void setStateOnNextTick(boolean state) {
         this.nextState = state;
     }
 
+    /**
+     * Sets the state of the specified node.
+     * @param state True for alive, false for dead.
+     */
     public void setState(boolean state) { this.state = state; }
     public boolean getState() { return state; }
 
-    /** This method just moves the state forward-- it pushes the nextState to the node. **/
+    /** This method just moves the state forward-- it pushes the nextState to the node. */
     private void pushToNextState() { state = nextState; }
 
     // This is where the actual math gets done and the cells change state.
@@ -57,46 +62,52 @@ public class Node {
         }
 
         // Crunch the numbers and figure out if the cell should be alive or not.
-          // (Note: Comment descriptions by Wikipedia.)
+        // (Note: Comment descriptions by Wikipedia.)
             // Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-        if (neighboursNumber < 2) setStateOnNextTick(false);
+        if (neighboursNumber < 2) {
+            setStateOnNextTick(false);
 
             // Any live cell with two or three live neighbours lives on to the next generation.
-        else if ((neighboursNumber == 2 || neighboursNumber == 3) && state)
+        } else if ((neighboursNumber == 2 || neighboursNumber == 3) & state) {
             setStateOnNextTick(true);
 
             // Any live cell with more than three live neighbours dies, as if by overpopulation.
-        else if (neighboursNumber > 3 && state)
-          setStateOnNextTick(false);
-          
+        } else if (neighboursNumber > 3 & state) {
+            setStateOnNextTick(false);
+
             // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-        else if (neighboursNumber == 3 && !state)
-          setStateOnNextTick(true);
+                // Note, we've already done a check for cases where we've got 3 numbers and the cell is alive, we *only* have to check
+                // that this cell has exactly three neighbours, since it's guaranteed to be false at this point.
+        } else if (neighboursNumber == 3) {
+            setStateOnNextTick(true);
+
+            // Otherwise, stay the same.
+        } else {
+            // Stay the same.
+            setStateOnNextTick(state);
+        }
     }
 
     /**
-     *  Returns a list of the neighbors-- Organized like so:
-     * 0 1 2
-     * 3 x 4
-     * 5 6 7
-     **/
+     * Returns a list of the neighbors-- Organized like so: <html><br>
+     * 0 1 2<br>
+     * 3 x 4<br>
+     * 5 6 7<br>
+     * </html>
+     */
     public Node[] getNeighbors() {
         Node[] neighbours = new Node[8];
 
-        // Note: We have to try to get every single one, seperately, or you might end up with a case
+        // Note: We have to try to get every single one, separately, or you might end up with a case
         // where the cells in the corners, which may have neighbors, end up thinking that they have
         // NO neighbors (and dying.)
 
+        //TODO: Collapse this into a loop.
+            // TODO: Tell @RaphaelLandau to do it
+            // Also I organized them by X and then Y offset so it's easier
+            // to figure out for the loop.
         try {
             neighbours[0] = world[x-1][y-1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
-            neighbours[1] = world[x  ][y-1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
-            neighbours[2] = world[x+1][y-1];
         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
 
         try {
@@ -104,15 +115,23 @@ public class Node {
         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
 
         try {
-            neighbours[4] = world[x+1][y  ];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
             neighbours[5] = world[x-1][y+1];
         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
 
         try {
+            neighbours[1] = world[x  ][y-1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
             neighbours[6] = world[x  ][y+1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
+            neighbours[2] = world[x+1][y-1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
+            neighbours[4] = world[x+1][y  ];
         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
 
         try {
@@ -135,29 +154,29 @@ public class Node {
         Node.world = world;
     }
 
-    /**  
+    /**
      *  This method calculates the next frame and pushes it to the array once, when called.
      */
     public static void tick() {
         // Process all the state changes, then push all the changes to the array.
-        for (int i = 0; i < world.length; i++) for (int j = 0; j < world[i].length; j++)
-            world[i][j].process();
+        for (Node[] nodes : world) for (Node node : nodes)
+            node.process();
 
-        for (int i = 0; i < world.length; i++) for (int j = 0; j < world[i].length; j++)
-            world[i][j].pushToNextState();
+        for (Node[] nodes : world) for (Node node : nodes)
+            node.pushToNextState();
 
     }
 
     /**
-    * This method returns the total number of living nodes in the world.
-    **/
+     * This method returns the total number of living nodes in the world.
+     */
     public static int getNumberOfLivingNodes() {
-      // Loop through the world, count up the number of living nodes.
-      int numberOfLivingNodes = 0;
-      for (Node[] n : world) for (Node no : n) 
-        if (no.getState()) 
-          numberOfLivingNodes++;
+        // Loop through the world, count up the number of living nodes.
+        int numberOfLivingNodes = 0;
+        for (Node[] n : world) for (Node no : n)
+            if (no.getState())
+                numberOfLivingNodes++;
 
-      return numberOfLivingNodes;
+        return numberOfLivingNodes;
     }
 }

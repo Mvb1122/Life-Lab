@@ -1,5 +1,4 @@
 // Abstracted from my github at https://github.com/Mvb1122/Labs/blob/main/Ceiling%20Tiles/src/com/company/TwoDimensionalArrayDisplay.java
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -38,7 +37,7 @@ public class TwoDimensionalArrayDisplay extends JPanel {
 
 
     /**
-     * This private method handles starting the UI.
+     * This private method handles starting the com.company.UI.
      */
     private static void createAndShowGUI() {
         // System.out.println("Created GUI on EDT? "+ SwingUtilities.isEventDispatchThread());
@@ -95,10 +94,10 @@ class UI extends JPanel {
     /**
      * This bit of code just gets the color of the node-- Grey if it's alive, 
      * Black if it's dead.
-     **/ 
+     **/
     private Color getColor(Object o) {
-      if (o.getClass() == Node.class) 
-        return ((Node) (o)).getColor();
-      else return Color.RED;
+        if (o.getClass() == Node.class)
+            return ((Node) (o)).getColor();
+        else return Color.RED;
     }
 }

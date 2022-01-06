@@ -3,13 +3,13 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
-*  @author mb1122
-*  @author RaphaelLandau 
-*/
+ *  @author mb1122
+ *  @author RaphaelLandau
+ */
 class Main {
     public static void main(String[] args) {
 
-        Node[][] entireThing = new Node[20][20];
+        Node[][] world = new Node[20][20];
 
         Scanner s;
         try {
@@ -24,28 +24,30 @@ class Main {
             int y = s.nextInt();
 
             // Note: The text file is 1-indexed, so we have to shift it down and over by one.
-              // Note the use of decrement operators-- that's why the indexes on the start of the line are decremented, but the ones on the later half (which have already been decremented,) don't have them.
-            entireThing[--x][--y] = new Node(x, y);
+            // Note the use of decrement operators-- that's why the indexes on the start of the line are decremented, but the ones on the later half (which have already been decremented,) don't have them.
+            world[--x][--y] = new Node(x, y);
         }
 
         // Fill the empty spots in the array with dead nodes.
-        for (int i = 0; i < entireThing.length; i++) for (int j = 0; j < entireThing[i].length; j++) {
-            if (entireThing[i][j] == null) {
-                entireThing[i][j] = new Node(i, j);
-                entireThing[i][j].setState(false);
+        for (int i = 0; i < world.length; i++) for (int j = 0; j < world[i].length; j++) {
+            if (world[i][j] == null) {
+                world[i][j] = new Node(i, j);
+                world[i][j].setState(false);
             }
         }
 
         // Show array on screen.
-        TwoDimensionalArrayDisplay.display(entireThing);
-        Node.setWorld(entireThing);
+        TwoDimensionalArrayDisplay.display(world);
+            // Tie the array into the simulation
+        Node.setWorld(world);
 
         // Update the display, five times at a rate of once per second.
-        for (int i = 0; i < 5; i++) {
+        System.out.printf("Started, number of Living Nodes: %2d.%n", Node.getNumberOfLivingNodes());
+        for (int i = 1; i <= 5; i++) {
             try {
                 Thread.sleep(1000);
-                System.out.printf("%-50s Number of Living Nodes: %2d%n", "Ticked for generation #" + (1 + i) + ".", Node.getNumberOfLivingNodes());
                 Node.tick();
+                System.out.printf("%-50s Number of Living Nodes: %2d%n", "Ticked for generation #" + (i) + ".", Node.getNumberOfLivingNodes());
             } catch (InterruptedException ignored) {;}
         }
     }
