@@ -101,13 +101,17 @@ public class Node {
         // Note: We have to try to get every single one, separately, or you might end up with a case
         // where the cells in the corners, which may have neighbors, end up thinking that they have
         // NO neighbors (and dying.)
-
         int reps = 0;
         for (int xpos = -1; xpos <= 1; xpos++) for (int ypos = -1; ypos <= 1; ypos++) {
-          if (xpos != 0 && ypos != 0) 
-            try { 
-             neighbours[reps] = world[x + xpos][y + ypos];
-            } catch (ArrayIndexOutOfBoundsException ignored) {;}
+          if (!(xpos == 0 & ypos == 0)) {
+            try {
+                neighbours[reps] = world[x + xpos][x + ypos];
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+                // Fill up any nodes outside the screen with dead spots.
+                neighbours[reps] = new Node();
+            }
+            reps++;
+          }
         }
 
         /*
@@ -134,11 +138,6 @@ public class Node {
           } catch (ArrayIndexOutOfBoundsException ignored) { ; }
         }
       */
-
-        // Fill up any null nodes with dead nodes.
-        for (int i = 0; i < neighbours.length; i++) if (neighbours[i] == null) {
-            neighbours[i] = new Node();
-        }
 
         return neighbours;
     }
