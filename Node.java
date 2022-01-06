@@ -68,7 +68,7 @@ public class Node {
             setStateOnNextTick(false);
 
             // Any live cell with two or three live neighbours lives on to the next generation.
-        } else if ((neighboursNumber == 2 || neighboursNumber == 3) & state) {
+        } else if ((neighboursNumber == 2 | neighboursNumber == 3) & state) {
             setStateOnNextTick(true);
 
             // Any live cell with more than three live neighbours dies, as if by overpopulation.
@@ -177,6 +177,18 @@ public class Node {
             if (no.getState())
                 numberOfLivingNodes++;
 
+        return numberOfLivingNodes;
+    }
+
+    /**
+     * This method returns the number of living nodes in a row.
+     * @param Row The row to total up.
+     * @return The total number of nodes that are alive in said row.
+     */
+    public static int getNumberOfLivingNodesByRow(int Row) {
+        int numberOfLivingNodes = 0;
+        Node[] row = world[Row];
+        for (Node node : row) if (node.getState()) numberOfLivingNodes++;
         return numberOfLivingNodes;
     }
 }

@@ -13,7 +13,7 @@ class Main {
 
         Scanner s;
         try {
-            s = new Scanner(new File("life100.txt"));
+            s = new Scanner(new File("Glider.txt"));
         } catch (FileNotFoundException e) {return;} // Won't happen, but we need this for insurance reasons.
 
         // Remove first number.
@@ -47,7 +47,7 @@ class Main {
             try {
                 Thread.sleep(1000);
                 Node.tick();
-                System.out.printf("%-50s Number of Living Nodes: %2d%n", "Ticked for generation #" + (i) + ".", Node.getNumberOfLivingNodes());
+                System.out.printf("%-50s Number of Living Nodes: %2d Number of Nodes in Row 10: %2d %n", "Ticked for generation #" + (i) + ".", Node.getNumberOfLivingNodes(), Node.getNumberOfLivingNodesByRow(10));
             } catch (InterruptedException ignored) {;}
         }
     }
