@@ -7,6 +7,8 @@ import java.util.Scanner;
  *  @author RaphaelLandau
  */
 class Main {
+  public static int genNum;
+  
     public static void main(String[] args) {
 
         Node[][] world = new Node[20][20];
@@ -40,14 +42,16 @@ class Main {
         TwoDimensionalArrayDisplay.display(world);
             // Tie the array into the simulation
         Node.setWorld(world);
+            // Open infoPanel
+        // InfoPanel ip1 = new InfoPanel();
 
         // Update the display, five times at a rate of once per second.
         System.out.printf("Started, number of Living Nodes: %2d.%n", Node.getNumberOfLivingNodes());
-        for (int i = 1; i <= 5; i++) {
+        for (genNum = 1; genNum <= 50; genNum++) {
             try {
                 Thread.sleep(1000);
                 Node.tick();
-                System.out.printf("%-50s Number of Living Nodes: %2d Number of Nodes in Row 10: %2d %n", "Ticked for generation #" + (i) + ".", Node.getNumberOfLivingNodes(), Node.getNumberOfLivingNodesByRow(10));
+                System.out.printf("Ticked for generation #%d:  Number of Living Nodes: %-2d Number of Nodes in Row 10: %-2d %n", genNum, Node.getNumberOfLivingNodes(), Node.getNumberOfLivingNodesByRow(11));
             } catch (InterruptedException ignored) {;}
         }
     }

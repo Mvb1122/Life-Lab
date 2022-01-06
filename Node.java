@@ -102,42 +102,38 @@ public class Node {
         // where the cells in the corners, which may have neighbors, end up thinking that they have
         // NO neighbors (and dying.)
 
-        //TODO: Collapse this into a loop.
-            // TODO: Tell @RaphaelLandau to do it
-            // Also I organized them by X and then Y offset so it's easier
-            // to figure out for the loop.
-        try {
-            neighbours[0] = world[x-1][y-1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+        int reps = 0;
+        for (int xpos = -1; xpos <= 1; xpos++) for (int ypos = -1; ypos <= 1; ypos++) {
+          if (xpos != 0 && ypos != 0) 
+            try { 
+             neighbours[reps] = world[x + xpos][y + ypos];
+            } catch (ArrayIndexOutOfBoundsException ignored) {;}
+        }
 
-        try {
-            neighbours[3] = world[x-1][y  ];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+        /*
+        for (int i = 0; i < 3; i++) {
+          try {
+            neighbours[i] = world[x-1+i][y-1];
+          } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+        }
 
-        try {
-            neighbours[5] = world[x-1][y+1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
-            neighbours[1] = world[x  ][y-1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
-            neighbours[6] = world[x  ][y+1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
-            neighbours[2] = world[x+1][y-1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
-            neighbours[4] = world[x+1][y  ];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
-        try {
-            neighbours[7] = world[x+1][y+1];
-        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
-
+        for (int i = 0; i < 2; i++) {
+          try {
+            if (i == 0) {
+              neighbours[i+3] = world[x+i][y];
+            }
+            else if (i == 1) {
+              neighbours[i+3] = world[x+i][y];
+            } 
+          } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+        }
+        
+        for (int i = 0; i < 3; i++) {
+          try {
+            neighbours[i+5] = world[x-1+i][y+1];
+          } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+        }
+      */
 
         // Fill up any null nodes with dead nodes.
         for (int i = 0; i < neighbours.length; i++) if (neighbours[i] == null) {
