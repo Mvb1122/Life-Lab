@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5088439c-a953-478f-a564-858c4eabe669" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Glider.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TwoDimensionalArrayDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/TwoDimensionalArrayDisplay.java" afterDir="false" />
-    </list>
+    <list default="true" id="5088439c-a953-478f-a564-858c4eabe669" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
