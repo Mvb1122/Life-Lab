@@ -1,0 +1,43 @@
+115	-         try {
+116	-             neighbours[0] = world[x-1][y-1];
+117	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+118	-
+119	-         try {
+120	-             neighbours[3] = world[x-1][y  ];
+121	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+122	-
+123	-         try {
+124	-             neighbours[5] = world[x-1][y+1];
+125	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+126	-
+127	-         try {
+128	-             neighbours[1] = world[x  ][y-1];
+129	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+130	-
+131	-         // Note that we don't do anything for when x=0 and y=0
+132118	        
+133	-         try {
+119	+       
+134	-             neighbours[6] = world[x  ][y+1];
+135	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+136120	 
+137	-         try {
+138	-             neighbours[2] = world[x+1][y-1];
+139	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+140	-
+141	-         try {
+142	-             neighbours[4] = world[x+1][y  ];
+143	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+144	-
+145	-         try {
+146	-             neighbours[7] = world[x+1][y+1];
+147	-         } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+148	-
+149	-
+150	-         // Fill up any null nodes with dead nodes.
+151	-         for (int i = 0; i < neighbours.length; i++) if (neighbours[i] == null) {
+152	-             neighbours[i] = new Node();
+153	-         }
+154	-
+155121	          return neighbours;
+156122	      }
