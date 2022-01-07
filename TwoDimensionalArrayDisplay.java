@@ -14,6 +14,11 @@ public class TwoDimensionalArrayDisplay extends JPanel {
      * @param data Must effectively be a Tile array, where your Tile, Vent, and Light classes are in the ceiling package.
      */
     public static void display(Object[][] data) {
+        if (f != null) {
+            f.setVisible(false);
+            f.invalidate();
+        }
+
         TwoDimensionalArrayDisplay.data = data;
         createAndShowGUI();
 

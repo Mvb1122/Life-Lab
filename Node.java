@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  *  @author mb1122
@@ -20,6 +23,41 @@ public class Node {
 
     /** This constructor just makes a dead node at 0, 0 without putting it in the world. **/
     public Node() { x = 0; y = 0; state = false; }
+
+    public static void load(File file) {
+        world = new Node[20][20];
+        Main.genNum = 1;
+
+        Scanner s;
+        try {
+            s = new Scanner(file);
+        } catch (FileNotFoundException e) {return;} // Won't happen, but we need this for insurance reasons.
+
+        // Remove first number.
+        s.nextLine();
+
+        while (s.hasNextLine()) {
+            int y = s.nextInt();
+            int x = s.nextInt();
+
+            // Note: The text file is 1-indexed, so we have to shift it down and over by one.
+            // Note the use of decrement operators-- that's why the indexes on the start of the line are decremented, but the ones on the later half (which have already been decremented,) don't have them.
+            world[--x][--y] = new Node(x, y);
+        }
+
+        // Fill the empty spots in the array with dead nodes.
+        for (int i = 0; i < world.length; i++) for (int j = 0; j < world[i].length; j++) {
+            if (world[i][j] == null) {
+                world[i][j] = new Node(i, j);
+                world[i][j].setState(false);
+            }
+        }
+
+        // Show array on screen.
+        TwoDimensionalArrayDisplay.display(world);
+        // Tie the array into the simulation
+        Node.setWorld(world);
+    }
 
     /**
      *  This method just something for the renderer to have in order to display alive and dead nodes.
