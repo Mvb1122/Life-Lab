@@ -101,6 +101,7 @@ public class Node {
         // Note: We have to try to get every single one, separately, or you might end up with a case
         // where the cells in the corners, which may have neighbors, end up thinking that they have
         // NO neighbors (and dying.)
+        /*
         int reps = 0;
         for (int xpos = -1; xpos <= 1; xpos++) {
           for (int ypos = -1; ypos <= 1; ypos++) {
@@ -115,9 +116,44 @@ public class Node {
             }
           }
         }
-      
-      
+         */
 
+        try {
+            neighbours[0] = world[x-1][y-1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
+            neighbours[3] = world[x-1][y  ];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
+            neighbours[5] = world[x-1][y+1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
+            neighbours[1] = world[x  ][y-1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        // Note that we don't do anything for when x=0 and y=0
+        try {
+            neighbours[6] = world[x  ][y+1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
+            neighbours[2] = world[x+1][y-1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {           neighbours[4] = world[x+1][y  ];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        try {
+            neighbours[7] = world[x+1][y+1];
+        } catch (ArrayIndexOutOfBoundsException ignored) { ; }
+
+        // Fill up any null nodes with dead nodes.
+        for (int i = 0; i < neighbours.length; i++) if (neighbours[i] == null) {
+            neighbours[i] = new Node();
+        }
         return neighbours;
     }
 
@@ -163,6 +199,17 @@ public class Node {
         int numberOfLivingNodes = 0;
         Node[] row = world[Row];
         for (Node node : row) if (node.getState()) numberOfLivingNodes++;
+        return numberOfLivingNodes;
+    }
+
+    /**
+     * This method returns the number of living nodes in a column.
+     * @param Column The row to total up.
+     * @return The total number of nodes that are alive in said column.
+     */
+    public static int getNumberOfLivingNodesByColumn(int Column) {
+        int numberOfLivingNodes = 0;
+        for (Node[] row : world) if (row[Column].state) numberOfLivingNodes++;
         return numberOfLivingNodes;
     }
 }

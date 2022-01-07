@@ -1,21 +1,17 @@
 import javax.swing.*;
 
 public class InfoPanel {
-  private int[] data;
   private final String[] labels = {"Generation Number", "Number of Living Nodes", "Number of Living Nodes in Row 10", "Number of Living Nodes in Column 10"};
-  private final JFrame infoPanel;
   private final JTextArea jta;
 
   /**
   *  Starts up and displays the simulation's information.
   */
   public InfoPanel() {
-    this.data = new int[]{Main.genNum, Node.getNumberOfLivingNodes(), Node.getNumberOfLivingNodesByRow(11), Integer.MAX_VALUE};
-
-    infoPanel = new JFrame();
-    jta = new JTextArea("TEST.");
+    JFrame infoPanel = new JFrame("Statistics for the Game of Life");
+    jta = new JTextArea("Waiting for Simulation to begin.");
     infoPanel.add(jta);
-    infoPanel.setBounds(5, 500, 300, 500);
+    infoPanel.setBounds(5, 250, 300, labels.length * 50);
     infoPanel.setVisible(true);
 
     // Set the text
@@ -34,7 +30,7 @@ public class InfoPanel {
   }
 
   public void refreshText() {
-    data = new int[]{Main.genNum, Node.getNumberOfLivingNodes(), Node.getNumberOfLivingNodesByRow(11), Integer.MAX_VALUE};
+    int[] data = new int[]{Main.genNum - 1, Node.getNumberOfLivingNodes(), Node.getNumberOfLivingNodesByRow(11), Node.getNumberOfLivingNodesByColumn(11)};
     String text = "";
     for (int i = 0; i < data.length; i++) {
       text += labels[i] + ": " + data[i] + '\n';
